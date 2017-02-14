@@ -1,8 +1,11 @@
 import sbt.Keys._
+import sbt.Resolver.sftp
 
 name := "PersistenceQueryExample"
 
-version := "1.0"
+organization := "org.me"
+
+version := "1.1"
 
 scalaVersion := "2.12.1"
 
@@ -40,4 +43,13 @@ libraryDependencies ++= Seq(
 // Assembly settings
 mainClass in Global := Some("voice.ReadServer")
 
+
+//override def managedStyle := ManagedStyle.Maven
+//publishTo := Resolver.sftp("My Maven Repo", "maven.example.org", "/var/www/maven/html")
+
+
+//publishTo := Some(Resolver.file("file",  new File( "/home/anand/Desktop/proto/releases" )) )
+
 //jarName in assembly := "persistence-examples.jar"
+
+//publishConfiguration.

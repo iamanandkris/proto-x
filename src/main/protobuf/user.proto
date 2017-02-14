@@ -1,36 +1,55 @@
-syntax = "proto2";
+syntax = "proto3";
 
-package user;
+package command;
+
+import "scalapb/scalapb.proto";
 import "google/protobuf/descriptor.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
 
-message Address{
-    optional string street1 = 100;
-    optional string street2 = 101;
-    optional string county = 102;
-    optional string contry = 103;
-    optional string PIN = 104;
+
+message GatherCompleted {
+    option (scalapb.message).extends = "outcome.Outcome";
+    message GatherMatched {
+        string name = 1;
+    }
+
+    message GatherMatchFailed {
+        string name = 1;
+    }
+    oneof result {
+        GatherMatched gatherMatched = 201;
+        GatherMatchFailed gatherMatchFailed = 202;
+    }
 }
 
-enum Aa{
-    T=0;
+message another{
+    string one=123;
+    oneof testtime {
+        google.protobuf.Timestamp tStamp = 223;
+    }
 }
 
-enum Bb{
-    TT=0;
-    option (scalapb.message).extends = "user.Aa";
+
+message PlayCompleted {
+    option (scalapb.message).extends = "outcome.Outcome";
+    message PlaySuccess{
+        string name=1;
+
+    }
+    message PlayFailed{
+        string name=1;
+    }
+    oneof result {
+        PlaySuccess success = 101;
+        PlayFailed failed = 102;
+    }
 }
 
-message Person {
-    optional string name = 1;
-    optional int32 age = 2;
-    // Address is a message defined somewhere else.
-    repeated Address addresses = 3;
-}
-message A {
-    extensions 1000 to max;
-    required Aa aa = 101;
-}
-message B {
-    extend A { optional B extension = 1000; }
-    required string s = 1;
+message NodeCompleted{
+    //Outcome oc = 22;
+    oneof reason {
+        PlayCompleted playComp = 301;
+        GatherCompleted gatherComp = 302;
+    }
 }
